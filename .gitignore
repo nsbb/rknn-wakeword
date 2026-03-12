@@ -1,0 +1,21 @@
+# Large data directories
+measure_FA/
+vad_cropped/
+wallpad_HiWonder_251113/
+rknn_model_zoo-main/
+infer_results_onnx/
+
+# Model binaries
+*.rknn
+*.onnx
+
+# Generated plots
+*.png
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Intermediate ONNX check files
+check*.onnx
