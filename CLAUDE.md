@@ -1,0 +1,73 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Project Overview
+
+Wake word / keyword spotting pipeline targeting the Rockchip RK3588 SoC. The model (BCResNet-t2, tau=2, Focal loss) is trained in PyTorch, exported to ONNX, then converted to RKNN format for on-device inference.
+
+## Common Commands
+
+```bash
+# Evaluate ONNX model on test set + FAR analysis (requires PyTorch + torchaudio)
+python inference.py
+
+# Convert ONNX → RKNN with validation report (run on PC with rknn-toolkit2)
+python convert_to_rknn.py
+
+# Generic ONNX → RKNN conversion
+python convert.py BCResNet-t2-Focal-ep110.onnx rk3588 fp
+
+# Run RKNN inference on RK3588 board (uses rknn-toolkit-lite2)
+python inference_rknn.py
+
+# Validate ONNX vs RKNN numerical consistency
+python compare_onnx_rknn.py
+
+# Validate numpy LogMel (inference_rknn.py) vs torchaudio LogMel (inference.py)
+python compare_logmel.py
+```
+
+## Architecture
+
+### Model & Tensor Format
+- **Model**: BCResNet-t2, 2-class classifier (wake word = class 1, non-wake = class 0)
+- **Input shape**: `(1, 1, 40, 151)` — NCHW: batch × channel × mel_bins × time_frames
+- **Audio params**: 16 kHz, 1.5 s window → 24000 samples → 151 frames (hop=160, win=480, FFT=512, 40 mel bins, center-padded)
+- **RKNN inference always requires `data_format='nchw'`**
+
+### Two-Environment Inference
+| Environment | Script | Runtime | Feature extraction |
+|---|---|---|---|
+| PC / development | `inference.py` | onnxruntime | `torchaudio.transforms.MelSpectrogram` |
+| RK3588 board | `inference_rknn.py` | `rknnlite.api.RKNNLite` (preferred) or `rknn.api.RKNN` | Pure-numpy `LogMel` class |
+
+`inference_rknn.py` auto-detects which toolkit is installed (lite2 first, then full toolkit).
+
+### FAR Evaluation Configurations
+Both `inference.py` and `inference_rknn.py` evaluate four post-processing configurations:
+1. **Raw** — raw probability threshold
+2. **Refractory only** — 2 s cooldown after each trigger
+3. **Refractory + EMA** — exponential moving average smoothing (α=0.3) + refractory
+4. **Refractory + EMA + N-of-M** — N=3 of last M=5 windows must fire + EMA + refractory
+
+### Key Files
+- `inference.py` — ONNX evaluation: accuracy on `test.csv` + FAR on `measure_FA/` audio
+- `inference_rknn.py` — RKNN evaluation: same logic, numpy-only, runs on board
+- `convert_to_rknn.py` — `ModelConverter` class: config → load → build → export → validate → JSON report
+- `convert.py` — Minimal RKNN converter (used as a utility template)
+- `compare_onnx_rknn.py` — Quick numerical sanity check between ONNX and RKNN outputs
+- `compare_logmel.py` — Checks that numpy and torchaudio LogMel outputs match
+- `pad_check*.py` — Iterative scripts investigating padding/frame-count edge cases
+
+### Data Layout
+- `test.csv` — columns: `path`, `label` (0 or 1)
+- `wallpad_HiWonder_251113/<speaker>/` — per-speaker WAV clips (`<speaker>_<label>_<idx>.wav`)
+- `vad_cropped/` — VAD-segmented clips for FAR evaluation
+- `measure_FA/` — long recordings (TV news, etc.) for false alarm rate measurement
+
+### RKNN Conversion Notes
+- Target platform: `rk3588`
+- Default quantization: `fp16` (pass `do_quantization=False` for FP32/FP16, `True` for INT8)
+- Validation threshold in `convert_to_rknn.py` is `max_diff < 1e-4`; the current converted model has `max_diff ≈ 8e-4` (marked `passed: false` in the report JSON — expected for fp16)
+- `mean_values=[[0]], std_values=[[1]]` are set explicitly because the input is already a log-mel spectrogram (not raw pixels)
