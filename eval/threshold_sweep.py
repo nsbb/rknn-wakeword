@@ -5,7 +5,7 @@ Step2: threshold 0.1~0.99 스윕 → accuracy/precision/recall/F1
 """
 import sys, os, wave, csv
 import numpy as np
-sys.path.insert(0, '.')
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from inference_rknn import LogMel, AudioPreprocessor
 from rknnlite.api import RKNNLite
 

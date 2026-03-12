@@ -1,7 +1,7 @@
 """NPU 레이턴시 벤치마크 (단일/멀티코어)"""
 import sys, time, wave
 import numpy as np
-sys.path.insert(0, '.')
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from inference_rknn import LogMel
 from rknnlite.api import RKNNLite
 

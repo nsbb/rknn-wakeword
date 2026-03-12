@@ -1,7 +1,7 @@
 """엔드투엔드 레이턴시 측정 (LogMel + NPU)"""
 import sys, time, wave
 import numpy as np
-sys.path.insert(0, '.')
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from inference_rknn import LogMel
 from rknnlite.api import RKNNLite
 

@@ -4,7 +4,7 @@ threshold 여러 값에서 FAR/hr 계산
 """
 import sys, os, wave
 import numpy as np
-sys.path.insert(0, '.')
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from inference_rknn import LogMel, AudioPreprocessor, SlidingWindowProcessor
 from rknnlite.api import RKNNLite
 

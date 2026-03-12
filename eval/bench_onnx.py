@@ -2,7 +2,7 @@
 보드 CPU에서 ONNX 추론 속도 측정
 """
 import numpy as np, time, sys, wave
-sys.path.insert(0, '.')
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from inference_rknn import LogMel
 import onnxruntime as ort
 
