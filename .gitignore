@@ -9,8 +9,16 @@ infer_results_onnx/
 *.rknn
 *.onnx
 
-# Generated plots
+# Generated plots / results
 *.png
+*.jpg
+*.jpeg
+*.csv
+*.json
+
+# IDE / tool config
+.claude/
+.kiro/
 
 # Python cache
 __pycache__/
