@@ -131,16 +131,27 @@ sub = onnx.utils.extract_model(
 - **후처리**: EMA(α=0.3) + Refractory(2s) 조합으로 FAR 대폭 감소
 - **포팅 완료 파일**: `BCResNet-t2-npu-fixed.rknn`
 
-### STT (다음 작업)
+### STT — Zipformer (진행 예정, `/home/rk3588/travail/rk3588/zipformer/`)
 
-STT 모델(Whisper, wav2vec2 등)은 구조가 훨씬 복잡하다. 예상 이슈:
+한국어 Streaming Transducer ASR. encoder + decoder + joiner 3개 모델로 구성.
 
-- **Attention 메커니즘**: SDPA, MultiHeadAttention이 RKNN에서 지원 안 될 가능성 높음 → 분해해서 MatMul + Softmax로 교체 필요
-- **LayerNorm**: ReduceMean을 포함하므로 위와 같이 Conv로 교체 필요
-- **Dynamic shape**: 입력 길이가 가변적인 경우 RKNN의 고정 shape 요구와 충돌 → 청크 단위 처리로 우회
-- **모델 크기**: Whisper-tiny도 수백 MB → INT8 양자화 필수, 메모리 제약 고려
-- **추천 접근**: Whisper의 encoder만 NPU로, decoder는 CPU에서 실행하는 하이브리드 방식
-- **참고**: RKNN Model Zoo에 whisper 예제 있음 (`rknn_model_zoo-main/examples/whisper/`)
+**이미 준비된 것:**
+- ONNX 모델 3개 (fp32 + int8): `encoder/decoder/joiner-epoch-99-avg-1.onnx`
+- CPU 추론 스크립트: `zipformer_onnx_test.py` (sherpa-onnx 기반)
+- RKNN Model Zoo에 동일 아키텍처 예제: `rknn_model_zoo/examples/zipformer/`
+
+**예상 이슈:**
+- `ReduceMean` encoder에 존재 → depthwise Conv 교체 (이미 아는 방법)
+- `CumSum`, `Where`, `ConstantOfShape`, `Range` → NPU 미지원 가능
+- Dynamic shape (입력 `?`) → RKNN은 고정 shape 필요 → Model Zoo 예제처럼 청크 단위 고정 (x: [1, 103, 80])
+- encoder 입력 32개 (x + cached 상태 31개) → RKNN 캐시 상태 NCHW→NHWC 변환 필요
+
+**시작점:** `rknn_model_zoo/examples/zipformer/python/zipformer.py` — RKNN 추론 파이프라인 전체 구현 참조
+
+**STT 일반 주의사항 (Whisper 등에도 적용):**
+- Attention/LayerNorm → 분해 또는 교체 필요
+- Whisper: encoder만 NPU, decoder는 CPU 하이브리드 권장
+- 참고: `rknn_model_zoo/examples/whisper/`, `rknn_model_zoo/examples/wav2vec2/`
 
 ### TTS (미래 작업)
 
