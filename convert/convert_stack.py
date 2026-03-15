@@ -4,14 +4,14 @@ import os
 
 for n in [1, 2, 4, 8]:
     mname = f'test_stack_{n}'
-    if not os.path.exists(f'{mname}.onnx'):
+    if not os.path.exists(f'../models/porting/{mname}.onnx'):
         continue
     rknn = RKNN(verbose=False)
     rknn.config(target_platform='rk3588')
-    rknn.load_onnx(model=f'{mname}.onnx')
+    rknn.load_onnx(model=f'../models/porting/{mname}.onnx')
     ret = rknn.build(do_quantization=False)
     if ret == 0:
-        rknn.export_rknn(f'{mname}.rknn')
+        rknn.export_rknn(f'../models/porting/{mname}.rknn')
         print(f'{mname}: OK')
     else:
         print(f'{mname}: FAIL {ret}')

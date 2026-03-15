@@ -17,7 +17,7 @@ with wave.open('wallpad_HiWonder_251113/lkk/lkk_1_2.wav', 'rb') as wf:
     audio = np.frombuffer(wf.readframes(wf.getnframes()), dtype=np.int16).astype(np.float32) / 32768.0
 feat = LogMel()(audio)[np.newaxis, np.newaxis, ...]
 
-model = onnx.load('BCResNet-t2-npu-fixed.onnx')
+model = onnx.load('../models/BCResNet-t2-npu-fixed.onnx')
 model = shape_inference.infer_shapes(model)
 graph = model.graph
 
@@ -87,14 +87,14 @@ del graph.node[:]
 graph.node.extend(new_nodes)
 
 model = shape_inference.infer_shapes(model)
-onnx.save(model, 'BCResNet-t2-no-ssn.onnx')
+onnx.save(model, '../models/porting/BCResNet-t2-no-ssn.onnx')
 
 # ONNX 확인
-sess_ref = ort.InferenceSession('BCResNet-t2-npu-fixed.onnx')
+sess_ref = ort.InferenceSession('../models/BCResNet-t2-npu-fixed.onnx')
 ref_out = sess_ref.run(None, {sess_ref.get_inputs()[0].name: feat})[0]
 print(f'Reference  ONNX probs: {softmax(ref_out.squeeze())}')
 
-sess = ort.InferenceSession('BCResNet-t2-no-ssn.onnx')
+sess = ort.InferenceSession('../models/porting/BCResNet-t2-no-ssn.onnx')
 out = sess.run(None, {sess.get_inputs()[0].name: feat})[0]
 print(f'No-SSN     ONNX probs: {softmax(out.squeeze())} (accuracy different, OK)')
 print('Saved: BCResNet-t2-no-ssn.onnx')

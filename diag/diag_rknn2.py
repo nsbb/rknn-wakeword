@@ -19,14 +19,14 @@ with wave.open(wav_path, 'rb') as wf:
 feat = LogMel()(audio)[np.newaxis, np.newaxis, ...]
 
 # ONNX raw logits
-session = ort.InferenceSession('BCResNet-t2-Focal-ep110.onnx')
+session = ort.InferenceSession('../models/BCResNet-t2-Focal-ep110.onnx')
 onnx_out = session.run(None, {session.get_inputs()[0].name: feat})[0]
 print('=== ONNX ===')
 print('  raw output:', onnx_out)
 print('  softmax   :', softmax(onnx_out.squeeze()))
 
 # RKNN raw output (softmax 적용 전)
-engine = RKNNInferenceEngine('BCResNet-t2-Focal-ep110.rknn', target='rk3588')
+engine = RKNNInferenceEngine('../models/porting/BCResNet-t2-Focal-ep110.rknn', target='rk3588')
 if engine.load_model():
     raw = engine.rknn.inference(inputs=[feat], data_format='nchw')
     print('\n=== RKNN ===')

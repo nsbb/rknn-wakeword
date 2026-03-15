@@ -8,14 +8,14 @@ feat2 = np.random.randn(1,1,20,151).astype(np.float32)
 
 for n_blocks in [1, 2, 4, 8]:
     mname = f'test_stack_{n_blocks}'
-    if not os.path.exists(f'{mname}.rknn'):
+    if not os.path.exists(f'../models/porting/{mname}.rknn'):
         print(f'{mname}: no rknn'); continue
 
-    sess = ort.InferenceSession(f'{mname}.onnx')
+    sess = ort.InferenceSession(f'../models/porting/{mname}.onnx')
     onnx_out = sess.run(None, {'input': feat})[0]
 
     rknn_lite = RKNNLite(verbose=False)
-    rknn_lite.load_rknn(f'{mname}.rknn')
+    rknn_lite.load_rknn(f'../models/porting/{mname}.rknn')
     rknn_lite.init_runtime(core_mask=RKNNLite.NPU_CORE_AUTO)
 
     npu_out  = rknn_lite.inference(inputs=[feat],  data_format='nchw')[0]

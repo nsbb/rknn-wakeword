@@ -9,13 +9,13 @@ import onnx
 from onnx import numpy_helper
 
 # ONNX with zero input
-sess = ort.InferenceSession('BCResNet-t2-npu-fixed.onnx')
+sess = ort.InferenceSession('../models/BCResNet-t2-npu-fixed.onnx')
 zero = np.zeros((1,1,40,151), dtype=np.float32)
 onnx_zero = sess.run(None, {'input': zero})[0]
 print(f'ONNX(zeros): {onnx_zero.squeeze()}')
 
 # FC bias (last Conv/Gemm layer)
-model = onnx.load('BCResNet-t2-npu-fixed.onnx')
+model = onnx.load('../models/BCResNet-t2-npu-fixed.onnx')
 last_node = model.graph.node[-1]
 print(f'Last op: {last_node.op_type} - {last_node.name}')
 
@@ -27,7 +27,7 @@ for init in model.graph.initializer:
 
 # NPU probs
 rknn_lite = RKNNLite(verbose=False)
-rknn_lite.load_rknn('BCResNet-t2-npu-fixed.rknn')
+rknn_lite.load_rknn('../models/BCResNet-t2-npu-fixed.rknn')
 rknn_lite.init_runtime(core_mask=RKNNLite.NPU_CORE_AUTO)
 raw_npu = rknn_lite.inference(inputs=[zero], data_format='nchw')[0]
 print(f'NPU(zeros):  {raw_npu.squeeze()}')

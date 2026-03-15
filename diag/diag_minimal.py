@@ -74,8 +74,8 @@ feat = np.random.randn(1,1,40,151).astype(np.float32)
 
 for mname, model in models.items():
     model = shape_inference.infer_shapes(model)
-    onnx.save(model, f'{mname}.onnx')
-    sess = ort.InferenceSession(f'{mname}.onnx')
+    onnx.save(model, f'../models/porting/{mname}.onnx')
+    sess = ort.InferenceSession(f'../models/porting/{mname}.onnx')
     out = sess.run(None, {'input': feat[:, :model.graph.input[0].type.tensor_type.shape.dim[1].dim_value, :, :]})[0]
     print(f'{mname}: ONNX output shape={out.shape}, range=[{out.min():.3f},{out.max():.3f}]')
 

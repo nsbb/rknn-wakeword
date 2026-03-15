@@ -103,7 +103,7 @@ threshold = 0.5
 logmel = LogMel(device="cpu")
 
 ### onnx 모델 로드
-onnx_path = "./BCResNet-t2-Focal-ep110.onnx"
+onnx_path = "./models/BCResNet-t2-Focal-ep110.onnx"
 
 print(f"⚠️Starting inference with .onnx model...")  
 sess_options = ort.SessionOptions()

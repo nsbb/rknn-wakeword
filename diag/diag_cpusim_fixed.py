@@ -48,7 +48,7 @@ print(f'Feature: {feat.shape}, range=[{feat.min():.2f},{feat.max():.2f}]')
 # RKNN CPU 시뮬레이션 (load_onnx + build + init_runtime() without target)
 rknn = RKNN(verbose=False)
 rknn.config(target_platform='rk3588')
-rknn.load_onnx(model='BCResNet-t2-npu-fixed.onnx')
+rknn.load_onnx(model='../models/BCResNet-t2-npu-fixed.onnx')
 rknn.build(do_quantization=False)
 
 ret = rknn.init_runtime()  # CPU sim

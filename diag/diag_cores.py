@@ -23,7 +23,7 @@ for core_name, core_mask in [
     ('NPU_CORE_0_1', RKNNLite.NPU_CORE_0_1),
 ]:
     rknn_lite = RKNNLite(verbose=False)
-    rknn_lite.load_rknn('BCResNet-t2-npu-fixed.rknn')
+    rknn_lite.load_rknn('../models/BCResNet-t2-npu-fixed.rknn')
     ret = rknn_lite.init_runtime(core_mask=core_mask)
     if ret != 0:
         print(f'  {core_name}: init failed ({ret})'); continue

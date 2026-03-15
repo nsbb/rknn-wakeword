@@ -4,7 +4,7 @@ BCResNet ONNX 그래프 첫 20개 op trace
 import onnx
 from onnx import shape_inference
 
-model = onnx.load('BCResNet-t2-npu-fixed.onnx')
+model = onnx.load('../models/BCResNet-t2-npu-fixed.onnx')
 model = shape_inference.infer_shapes(model)
 graph = model.graph
 

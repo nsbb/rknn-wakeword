@@ -11,7 +11,7 @@ with wave.open('wallpad_HiWonder_251113/lkk/lkk_1_2.wav', 'rb') as wf:
     audio = np.frombuffer(wf.readframes(wf.getnframes()), dtype=np.int16).astype(np.float32) / 32768.0
 feat = LogMel()(audio)[np.newaxis, np.newaxis, ...]
 
-model = onnx.load('BCResNet-t2-no-ssn.onnx')
+model = onnx.load('../models/porting/BCResNet-t2-no-ssn.onnx')
 model = shape_inference.infer_shapes(model)
 
 # 추출할 중간 output names
@@ -27,13 +27,13 @@ targets = {
 for tensor_name, desc in targets.items():
     try:
         sub = onnx.utils.extract_model(
-            'BCResNet-t2-no-ssn.onnx',
-            f'sub_{desc}.onnx',
+            '../models/porting/BCResNet-t2-no-ssn.onnx',
+            f'../models/porting/sub_{desc}.onnx',
             input_names=['input'],
             output_names=[tensor_name],
         )
         # test with onnxruntime
-        sess = ort.InferenceSession(f'sub_{desc}.onnx')
+        sess = ort.InferenceSession(f'../models/porting/sub_{desc}.onnx')
         out = sess.run(None, {'input': feat})[0]
         out_z = sess.run(None, {'input': np.zeros_like(feat)})[0]
         print(f'{desc}: shape={out.shape}, '

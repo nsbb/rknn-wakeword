@@ -3,9 +3,9 @@ import numpy as np
 import onnxruntime as ort
 import wave, sys
 
-orig_path  = '/home/rk3588/travail/rk3588/Rockchip_VT/BCResNet-t2-Focal-ep110.onnx'
-mod_path   = '/home/rk3588/travail/rk3588/Rockchip_VT/BCResNet-t2-rknn-compatible.onnx'
-audio_path = '/home/rk3588/travail/rk3588/Rockchip_VT/wallpad_HiWonder_251113/lkk/lkk_1_2.wav'
+orig_path  = '../models/BCResNet-t2-Focal-ep110.onnx'
+mod_path   = '../models/porting/BCResNet-t2-rknn-compatible.onnx'
+audio_path = '../wallpad_HiWonder_251113/lkk/lkk_1_2.wav'
 
 # LogMel 클래스 (inference_rknn.py에서 복사)
 class LogMel:

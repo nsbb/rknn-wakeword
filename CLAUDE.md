@@ -13,19 +13,19 @@ Wake word / keyword spotting pipeline targeting the Rockchip RK3588 SoC. The mod
 python inference.py
 
 # Convert ONNX → RKNN with validation report (run on PC with rknn-toolkit2)
-python convert_to_rknn.py
+python convert/convert_to_rknn.py
 
 # Generic ONNX → RKNN conversion
-python convert.py BCResNet-t2-Focal-ep110.onnx rk3588 fp
+python convert/convert.py models/BCResNet-t2-Focal-ep110.onnx rk3588 fp
 
 # Run RKNN inference on RK3588 board (uses rknn-toolkit-lite2)
 python inference_rknn.py
 
 # Validate ONNX vs RKNN numerical consistency
-python compare_onnx_rknn.py
+python diag/compare_onnx_rknn.py
 
 # Validate numpy LogMel (inference_rknn.py) vs torchaudio LogMel (inference.py)
-python compare_logmel.py
+python diag/compare_logmel.py
 ```
 
 ## Architecture
@@ -54,11 +54,11 @@ Both `inference.py` and `inference_rknn.py` evaluate four post-processing config
 ### Key Files
 - `inference.py` — ONNX evaluation: accuracy on `test.csv` + FAR on `measure_FA/` audio
 - `inference_rknn.py` — RKNN evaluation: same logic, numpy-only, runs on board
-- `convert_to_rknn.py` — `ModelConverter` class: config → load → build → export → validate → JSON report
-- `convert.py` — Minimal RKNN converter (used as a utility template)
-- `compare_onnx_rknn.py` — Quick numerical sanity check between ONNX and RKNN outputs
-- `compare_logmel.py` — Checks that numpy and torchaudio LogMel outputs match
-- `pad_check*.py` — Iterative scripts investigating padding/frame-count edge cases
+- `convert/convert_to_rknn.py` — `ModelConverter` class: config → load → build → export → validate → JSON report
+- `convert/convert.py` — Minimal RKNN converter (used as a utility template)
+- `diag/compare_onnx_rknn.py` — Quick numerical sanity check between ONNX and RKNN outputs
+- `diag/compare_logmel.py` — Checks that numpy and torchaudio LogMel outputs match
+- `diag/pad_check*.py` — Iterative scripts investigating padding/frame-count edge cases
 
 ### Data Layout
 - `test.csv` — columns: `path`, `label` (0 or 1)
@@ -89,8 +89,8 @@ The original ONNX model requires 3 graph transformations before RKNN conversion:
    - Expand avoids RKNN's fused AddRelu broadcast bug `(1,C,1,W)+(1,C,H,W)`
 
 **Fixed model files**:
-- `BCResNet-t2-npu-fixed.onnx` — modified ONNX (ONNX output unchanged: `Max diff: 0.000000`)
-- `BCResNet-t2-npu-fixed.rknn` — converted RKNN (NPU pred=1 matches ONNX pred=1 ✓)
+- `models/BCResNet-t2-npu-fixed.onnx` — modified ONNX (ONNX output unchanged: `Max diff: 0.000000`)
+- `models/BCResNet-t2-npu-fixed.rknn` — converted RKNN (NPU pred=1 matches ONNX pred=1 ✓)
 
 **Workflow**:
 ```bash
@@ -98,10 +98,10 @@ The original ONNX model requires 3 graph transformations before RKNN conversion:
 conda run -n RKNN-Toolkit2 python fix_rknn_graph.py
 
 # Convert to RKNN
-conda run -n RKNN-Toolkit2 python convert_fixed_only.py
+conda run -n RKNN-Toolkit2 python convert/convert_fixed_only.py
 
 # Quick NPU sanity check
-conda run -n RKNN-Toolkit2 python test_npu_fixed.py
+conda run -n RKNN-Toolkit2 python test/test_npu_fixed.py
 ```
 
 **필독**: 새 세션에서 이 프로젝트를 이어받을 때 반드시 먼저 읽을 것:

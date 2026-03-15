@@ -5,7 +5,7 @@ dummy_input_nchw = np.random.uniform(0, 1, (1, 1, 40, 151)).astype(np.float32)
 
 rknn_sim = RKNN(verbose=False)
 rknn_sim.config(mean_values=[[0]], std_values=[[1]], target_platform='rk3588')
-rknn_sim.load_onnx('BCResNet-t2-Focal-ep110.onnx')
+rknn_sim.load_onnx('../models/BCResNet-t2-Focal-ep110.onnx')
 rknn_sim.build(do_quantization=False)
 
 # Simulator inference

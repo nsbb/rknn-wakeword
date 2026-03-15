@@ -18,7 +18,7 @@ with wave.open('wallpad_HiWonder_251113/lkk/lkk_1_2.wav', 'rb') as wf:
 feat = LogMel()(audio)[np.newaxis, np.newaxis, ...]
 
 # no-SSN 모델에서 중간 출력 tensor 이름 수집
-model = onnx.load('BCResNet-t2-no-ssn.onnx')
+model = onnx.load('../models/porting/BCResNet-t2-no-ssn.onnx')
 model = shape_inference.infer_shapes(model)
 graph = model.graph
 
@@ -112,7 +112,7 @@ if first_conv_out:
     )
     # 필요없는 노드 제거 - first_conv_out 이후 노드 제거
     slice_graph = shape_inference.infer_shapes(slice_graph)
-    onnx.save(slice_graph, 'test_slice_conv1.onnx')
+    onnx.save(slice_graph, '../models/porting/test_slice_conv1.onnx')
     print(f'\nSaved: test_slice_conv1.onnx → output={first_conv_out}')
 
 # ReduceMean 교체 Conv (Broadcast residual) 출력 슬라이스
@@ -129,6 +129,6 @@ for node in graph.node:
         slice_graph2.graph.output.append(
             helper.make_tensor_value_info(rm_out, onnx.TensorProto.FLOAT, rm_shape)
         )
-        onnx.save(slice_graph2, 'test_slice_rm.onnx')
+        onnx.save(slice_graph2, '../models/porting/test_slice_rm.onnx')
         print(f'Saved: test_slice_rm.onnx → output={rm_out}')
         break

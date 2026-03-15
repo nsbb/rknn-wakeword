@@ -22,10 +22,10 @@ def convert_and_test(onnx_path, label):
     rknn.release()
 
 convert_and_test(
-    '/home/rk3588/travail/rk3588/Rockchip_VT/BCResNet-t2-Focal-ep110.onnx',
+    '../models/BCResNet-t2-Focal-ep110.onnx',
     '원본 ONNX (ReduceMean 포함)'
 )
 convert_and_test(
-    '/home/rk3588/travail/rk3588/Rockchip_VT/BCResNet-t2-rknn-compatible.onnx',
+    '../models/porting/BCResNet-t2-rknn-compatible.onnx',
     '수정 ONNX (AveragePool으로 교체)'
 )

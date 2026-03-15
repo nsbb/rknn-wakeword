@@ -2,7 +2,7 @@
 import onnx
 from onnx import shape_inference
 
-model_path = '/home/rk3588/travail/rk3588/Rockchip_VT/BCResNet-t2-rknn-compatible.onnx'
+model_path = '../models/porting/BCResNet-t2-rknn-compatible.onnx'
 model = onnx.load(model_path)
 model = shape_inference.infer_shapes(model)
 graph = model.graph

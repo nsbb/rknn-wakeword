@@ -15,11 +15,11 @@ with wave.open('wallpad_HiWonder_251113/lkk/lkk_1_2.wav', 'rb') as wf:
 feat = LogMel()(audio)[np.newaxis, np.newaxis, ...]
 
 candidates = [
-    'BCResNet-t2-Focal-ep110.onnx',
-    'check0_base_optimize.onnx',
-    'check1_fold_constant.onnx',
-    'check2_correct_ops.onnx',
-    'check3_fuse_ops.onnx',
+    '../models/BCResNet-t2-Focal-ep110.onnx',
+    '../models/porting/check0_base_optimize.onnx',
+    '../models/porting/check1_fold_constant.onnx',
+    '../models/porting/check2_correct_ops.onnx',
+    '../models/porting/check3_fuse_ops.onnx',
 ]
 
 for onnx_path in candidates:

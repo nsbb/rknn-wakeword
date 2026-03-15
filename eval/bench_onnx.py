@@ -13,7 +13,7 @@ feat = LogMel()(audio)[np.newaxis, np.newaxis, ...]
 sess_options = ort.SessionOptions()
 sess_options.intra_op_num_threads = 1
 sess_options.inter_op_num_threads = 1
-session = ort.InferenceSession('BCResNet-t2-Focal-ep110.onnx', sess_options)
+session = ort.InferenceSession('../models/BCResNet-t2-Focal-ep110.onnx', sess_options)
 iname = session.get_inputs()[0].name
 
 # warmup

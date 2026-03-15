@@ -60,8 +60,8 @@ feat = np.random.randn(1,1,20,151).astype(np.float32)
 for n_blocks in [1, 2, 4, 8]:
     model = make_bcblock_stack(f'stack_{n_blocks}', n_blocks=n_blocks)
     model = shape_inference.infer_shapes(model)
-    onnx.save(model, f'test_stack_{n_blocks}.onnx')
-    sess = ort.InferenceSession(f'test_stack_{n_blocks}.onnx')
+    onnx.save(model, f'../models/porting/test_stack_{n_blocks}.onnx')
+    sess = ort.InferenceSession(f'../models/porting/test_stack_{n_blocks}.onnx')
     out = sess.run(None, {'input': feat})[0]
     print(f'stack_{n_blocks}: ONNX range=[{out.min():.3f},{out.max():.3f}]')
 

@@ -17,9 +17,9 @@ print(f'Feature shape: {feat.shape}, range: [{feat.min():.2f}, {feat.max():.2f}]
 
 # BCResNet-t2-Focal-ep110_conv.rknn 시도 (convert.py로 만든 버전)
 for rknn_path in [
-    'BCResNet-t2-Focal-ep110_conv.rknn',
-    'BCResNet-t2-Focal-ep110.rknn',
-    'BCResNet-t2-rknn-compatible.rknn',
+    '../models/porting/BCResNet-t2-Focal-ep110_conv.rknn',
+    '../models/porting/BCResNet-t2-Focal-ep110.rknn',
+    '../models/porting/BCResNet-t2-rknn-compatible.rknn',
 ]:
     print(f'\n--- {rknn_path} ---')
     rknn_lite = RKNNLite(verbose=False)

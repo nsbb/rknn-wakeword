@@ -9,7 +9,7 @@ sys.path.insert(0, '.')
 from inference_rknn import RKNNInferenceEngine
 import onnxruntime as ort
 
-session = ort.InferenceSession('BCResNet-t2-Focal-ep110.onnx')
+session = ort.InferenceSession('../models/BCResNet-t2-Focal-ep110.onnx')
 input_name = session.get_inputs()[0].name
 
 def test(feat, label):
@@ -26,7 +26,7 @@ test(feat_uniform, 'uniform(0,1)')
 feat_logmel = np.random.uniform(-12, 8.5, (1, 1, 40, 151)).astype(np.float32)
 test(feat_logmel, 'uniform(-12,8.5)')
 
-engine = RKNNInferenceEngine('BCResNet-t2-Focal-ep110.rknn', target='rk3588')
+engine = RKNNInferenceEngine('../models/porting/BCResNet-t2-Focal-ep110.rknn', target='rk3588')
 if engine.load_model():
     print('\n--- BCResNet-t2-Focal-ep110.rknn ---')
     for feat, label in [(feat_uniform, 'uniform(0,1)'), (feat_logmel, 'uniform(-12,8.5)')]:
@@ -39,7 +39,7 @@ if engine.load_model():
         print(f'  diff  max={diff.max():.6f} mean={diff.mean():.6f}')
     engine.release()
 
-engine2 = RKNNInferenceEngine('BCResNet-t2-Focal-ep110_native.rknn', target='rk3588')
+engine2 = RKNNInferenceEngine('../models/porting/BCResNet-t2-Focal-ep110_native.rknn', target='rk3588')
 if engine2.load_model():
     print('\n--- BCResNet-t2-Focal-ep110_native.rknn ---')
     import wave

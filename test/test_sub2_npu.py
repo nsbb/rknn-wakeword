@@ -11,8 +11,8 @@ feat = LogMel()(audio)[np.newaxis, np.newaxis, ...]
 feat2 = (feat * 0.5 + 0.3).astype(np.float32)
 
 for desc in ['after_rm','after_f1_conv','after_sigmoid','after_mul','after_f1_1conv','after_add']:
-    rknn_path = f'sub2_{desc}.rknn'
-    onnx_path = f'sub2_{desc}.onnx'
+    rknn_path = f'../models/porting/sub2_{desc}.rknn'
+    onnx_path = f'../models/porting/sub2_{desc}.onnx'
     if not os.path.exists(rknn_path):
         continue
 

@@ -2,7 +2,7 @@ from rknn.api import RKNN
 import numpy as np
 
 rknn = RKNN(verbose=False)
-rknn.load_rknn('BCResNet-t2-Focal-ep110_native.rknn')
+rknn.load_rknn('../models/porting/BCResNet-t2-Focal-ep110_native.rknn')
 rknn.init_runtime(target='rk3588')
 
 zero_input = np.zeros((1, 1, 40, 151)).astype(np.float32)

@@ -1,11 +1,11 @@
 """Step 8: perf_debug로 NPU에서 어떤 op이 CPU fallback되는지 확인"""
 import numpy as np, wave, sys
-sys.path.insert(0, '/home/rk3588/travail/rk3588/Rockchip_VT')
+sys.path.insert(0, '..')
 from inference_rknn import LogMel
 from rknn.api import RKNN
 
-rknn_path = '/home/rk3588/travail/rk3588/Rockchip_VT/BCResNet-t2-rknn-compatible.rknn'
-audio_path = '/home/rk3588/travail/rk3588/Rockchip_VT/wallpad_HiWonder_251113/lkk/lkk_1_2.wav'
+rknn_path = '../models/porting/BCResNet-t2-rknn-compatible.rknn'
+audio_path = '../wallpad_HiWonder_251113/lkk/lkk_1_2.wav'
 
 with wave.open(audio_path, 'rb') as wf:
     audio = np.frombuffer(wf.readframes(wf.getnframes()), dtype=np.int16).astype(np.float32) / 32768.0

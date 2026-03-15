@@ -8,7 +8,7 @@ except ImportError:
     from rknn.api import RKNN
     is_lite = False
 
-onnx_path = '/home/rk3588/travail/rk3588/Rockchip_VT/BCResNet-t2-rknn-compatible.onnx'
+onnx_path = '../models/porting/BCResNet-t2-rknn-compatible.onnx'
 
 rknn = RKNN(verbose=True)
 rknn.config(target_platform='rk3588', mean_values=[[0]], std_values=[[1]])

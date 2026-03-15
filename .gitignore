@@ -6,7 +6,7 @@ rknn_model_zoo-main/
 infer_results_onnx/
 
 # RKNN 변환 중간 확인용 파일 (check0~3)
-check*.onnx
+models/porting/check*.onnx
 
 # Generated plots / results
 *.png

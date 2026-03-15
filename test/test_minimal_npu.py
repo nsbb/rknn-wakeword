@@ -8,8 +8,8 @@ feat_c16 = np.random.randn(1,16,40,151).astype(np.float32)
 zeros_c1  = np.zeros_like(feat_c1)
 
 def test(mname, feat):
-    onnx_path = f'{mname}.onnx'
-    rknn_path = f'{mname}.rknn'
+    onnx_path = f'../models/porting/{mname}.onnx'
+    rknn_path = f'../models/porting/{mname}.rknn'
     if not os.path.exists(rknn_path):
         print(f'{mname}: no rknn file'); return
 

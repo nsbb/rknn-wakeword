@@ -4,7 +4,7 @@ RKNN 모델 op 분석 - 어떤 op이 NPU에서 문제인지 확인
 from rknn.api import RKNN
 
 rknn = RKNN(verbose=True)
-rknn.load_rknn('BCResNet-t2-Focal-ep110.rknn')
+rknn.load_rknn('../models/porting/BCResNet-t2-Focal-ep110.rknn')
 
 # NPU에서 실행
 ret = rknn.init_runtime(target='rk3588', perf_debug=True)

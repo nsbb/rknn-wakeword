@@ -2,7 +2,7 @@ import onnx
 import onnxruntime as ort
 import numpy as np
 
-model_path = 'BCResNet-t2-Focal-ep110.onnx'
+model_path = '../models/BCResNet-t2-Focal-ep110.onnx'
 ort_session = ort.InferenceSession(model_path)
 inputs = ort_session.get_inputs()
 print("ONNX Inputs:")

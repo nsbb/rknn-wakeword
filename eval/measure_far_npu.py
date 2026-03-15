@@ -17,7 +17,7 @@ N_N, N_M = 3, 5
 preprocessor = AudioPreprocessor()
 logmel = LogMel(apply_preemph=False)
 rknn = RKNNLite(verbose=False)
-rknn.load_rknn('BCResNet-t2-npu-fixed.rknn')
+rknn.load_rknn('../models/BCResNet-t2-npu-fixed.rknn')
 rknn.init_runtime(core_mask=RKNNLite.NPU_CORE_0)
 processor = SlidingWindowProcessor(sr=16000)
 

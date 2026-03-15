@@ -23,12 +23,12 @@ targets = {
 for tensor_name, desc in targets.items():
     try:
         onnx.utils.extract_model(
-            'BCResNet-t2-no-ssn.onnx',
-            f'sub2_{desc}.onnx',
+            '../models/porting/BCResNet-t2-no-ssn.onnx',
+            f'../models/porting/sub2_{desc}.onnx',
             input_names=['input'],
             output_names=[tensor_name],
         )
-        sess = ort.InferenceSession(f'sub2_{desc}.onnx')
+        sess = ort.InferenceSession(f'../models/porting/sub2_{desc}.onnx')
         out = sess.run(None, {'input': feat})[0]
         print(f'{desc}: shape={out.shape}, range=[{out.min():.4f},{out.max():.4f}]')
     except Exception as e:

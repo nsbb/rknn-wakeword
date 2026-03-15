@@ -16,7 +16,7 @@ with wave.open('wallpad_HiWonder_251113/lkk/lkk_1_2.wav', 'rb') as wf:
 feat = LogMel()(audio)[np.newaxis, np.newaxis, ...]
 
 # ONNX reference
-sess = ort.InferenceSession('BCResNet-t2-npu-fixed.onnx')
+sess = ort.InferenceSession('../models/BCResNet-t2-npu-fixed.onnx')
 onnx_out = sess.run(None, {sess.get_inputs()[0].name: feat})[0]
 onnx_probs = softmax(onnx_out.squeeze())
 print(f'ONNX probs: {onnx_probs}  pred={np.argmax(onnx_probs)}')
@@ -25,19 +25,19 @@ print(f'ONNX probs: {onnx_probs}  pred={np.argmax(onnx_probs)}')
 print('\nConverting to RKNN...')
 rknn = RKNN(verbose=True)
 rknn.config(target_platform='rk3588')
-ret = rknn.load_onnx(model='BCResNet-t2-npu-fixed.onnx')
+ret = rknn.load_onnx(model='../models/BCResNet-t2-npu-fixed.onnx')
 print(f'load_onnx: {ret}')
 ret = rknn.build(do_quantization=False)
 print(f'build: {ret}')
-ret = rknn.export_rknn('BCResNet-t2-npu-fixed.rknn')
+ret = rknn.export_rknn('../models/BCResNet-t2-npu-fixed.rknn')
 print(f'export: {ret}')
 rknn.release()
-print('Saved: BCResNet-t2-npu-fixed.rknn')
+print('Saved: ../models/BCResNet-t2-npu-fixed.rknn')
 
 # rknnlite로 NPU 추론
 print('\nTesting with rknnlite...')
 rknn_lite = RKNNLite(verbose=False)
-ret = rknn_lite.load_rknn('BCResNet-t2-npu-fixed.rknn')
+ret = rknn_lite.load_rknn('../models/BCResNet-t2-npu-fixed.rknn')
 print(f'load_rknn: {ret}')
 ret = rknn_lite.init_runtime(core_mask=RKNNLite.NPU_CORE_AUTO)
 print(f'init_runtime: {ret}')

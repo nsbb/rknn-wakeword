@@ -5,7 +5,7 @@ import onnx
 from onnx import shape_inference
 import numpy as np
 
-model = onnx.load('BCResNet-t2-Focal-ep110.onnx')
+model = onnx.load('../models/BCResNet-t2-Focal-ep110.onnx')
 model = shape_inference.infer_shapes(model)
 
 graph = model.graph

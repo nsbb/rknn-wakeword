@@ -14,7 +14,7 @@ print("LogMel Shape:", feat.shape)
 print("LogMel Min/Max/Mean:", feat.min(), feat.max(), feat.mean())
 
 # ONNX Runtime
-onnx_path = 'BCResNet-t2-Focal-ep110.onnx'
+onnx_path = '../models/BCResNet-t2-Focal-ep110.onnx'
 ort_session = ort.InferenceSession(onnx_path)
 onnx_input = {ort_session.get_inputs()[0].name: feat}
 onnx_out = ort_session.run(None, onnx_input)[0]
@@ -26,7 +26,7 @@ onnx_probs = exp_logits / exp_logits.sum(axis=-1, keepdims=True)
 print("ONNX Probs: ", onnx_probs)
 
 # RKNN Runtime
-rknn_path = 'BCResNet-t2-Focal-ep110.rknn'
+rknn_path = '../models/porting/BCResNet-t2-Focal-ep110.rknn'
 engine = RKNNInferenceEngine(rknn_path, target='rk3588')
 engine.load_model()
 rknn_probs = engine.infer(feat)

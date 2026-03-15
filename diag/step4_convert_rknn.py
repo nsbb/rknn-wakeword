@@ -11,8 +11,8 @@ except ImportError:
 
 print(f"Using {'RKNNLite' if is_lite else 'RKNN'}")
 
-onnx_path = '/home/rk3588/travail/rk3588/Rockchip_VT/BCResNet-t2-rknn-compatible.onnx'
-rknn_path  = '/home/rk3588/travail/rk3588/Rockchip_VT/BCResNet-t2-rknn-compatible.rknn'
+onnx_path = '../models/porting/BCResNet-t2-rknn-compatible.onnx'
+rknn_path  = '../models/porting/BCResNet-t2-rknn-compatible.rknn'
 
 rknn = RKNN(verbose=False)
 
@@ -104,7 +104,7 @@ class LogMel:
         mel_spec = np.dot(self.mel_basis, spectrogram)
         return np.log(mel_spec + 1e-6).astype(np.float32)
 
-audio_path = '/home/rk3588/travail/rk3588/Rockchip_VT/wallpad_HiWonder_251113/lkk/lkk_1_2.wav'
+audio_path = '../wallpad_HiWonder_251113/lkk/lkk_1_2.wav'
 with wave.open(audio_path, 'rb') as wf:
     audio = np.frombuffer(wf.readframes(wf.getnframes()), dtype=np.int16).astype(np.float32) / 32768.0
 

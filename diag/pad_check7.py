@@ -5,12 +5,12 @@ import onnxruntime as ort
 dummy_input_nchw = np.random.uniform(0, 1, (1, 1, 40, 151)).astype(np.float32)
 
 # ONNX Runtime (NCHW)
-ort_session = ort.InferenceSession('BCResNet-t2-Focal-ep110.onnx')
+ort_session = ort.InferenceSession('../models/BCResNet-t2-Focal-ep110.onnx')
 onnx_out = ort_session.run(None, {ort_session.get_inputs()[0].name: dummy_input_nchw})[0]
 
 # RKNN
 rknn = RKNN(verbose=False)
-rknn.load_rknn('BCResNet-t2-Focal-ep110.rknn')
+rknn.load_rknn('../models/porting/BCResNet-t2-Focal-ep110.rknn')
 rknn.init_runtime(target='rk3588')
 
 # 1. Try passing NCHW (current)

@@ -6,8 +6,8 @@ import numpy as np
 import onnxruntime as ort
 from rknn.api import RKNN
 
-ONNX_PATH = 'BCResNet-t2-Focal-ep110.onnx'
-RKNN_PATH = 'BCResNet-t2-Focal-ep110_v2.rknn'
+ONNX_PATH = '../models/BCResNet-t2-Focal-ep110.onnx'
+RKNN_PATH = '../models/porting/BCResNet-t2-Focal-ep110_v2.rknn'
 
 def softmax(x):
     e = np.exp(x - x.max())

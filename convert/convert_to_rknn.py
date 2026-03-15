@@ -128,8 +128,8 @@ class ModelConverter:
 
 if __name__ == '__main__':
     converter = ModelConverter()
-    onnx_path = 'BCResNet-t2-Focal-ep110.onnx'
-    rknn_path = 'BCResNet-t2-Focal-ep110.rknn'
+    onnx_path = '../models/BCResNet-t2-Focal-ep110.onnx'
+    rknn_path = '../models/porting/BCResNet-t2-Focal-ep110.rknn'
     
     if os.path.exists(onnx_path):
         success = converter.convert_onnx_to_rknn(onnx_path, rknn_path)

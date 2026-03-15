@@ -16,7 +16,7 @@ feat = LogMel()(audio)[np.newaxis, np.newaxis, ...]
 
 # CPU 시뮬레이션 (target=None)
 rknn_cpu = RKNN(verbose=False)
-rknn_cpu.load_rknn('BCResNet-t2-Focal-ep110_conv.rknn')
+rknn_cpu.load_rknn('../models/porting/BCResNet-t2-Focal-ep110_conv.rknn')
 rknn_cpu.init_runtime()  # target 없이 = CPU simulation
 raw_cpu = rknn_cpu.inference(inputs=[feat], data_format='nchw')[0]
 print('CPU sim probs:', softmax(raw_cpu.squeeze()), '  raw:', raw_cpu)
@@ -24,7 +24,7 @@ rknn_cpu.release()
 
 # NPU
 rknn_npu = RKNN(verbose=False)
-rknn_npu.load_rknn('BCResNet-t2-Focal-ep110_conv.rknn')
+rknn_npu.load_rknn('../models/porting/BCResNet-t2-Focal-ep110_conv.rknn')
 rknn_npu.init_runtime(target='rk3588')
 raw_npu = rknn_npu.inference(inputs=[feat], data_format='nchw')[0]
 print('NPU       probs:', softmax(raw_npu.squeeze()), '  raw:', raw_npu)

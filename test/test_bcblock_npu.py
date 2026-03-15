@@ -6,12 +6,12 @@ from rknnlite.api import RKNNLite
 C, H, W = 16, 20, 151
 feat = np.random.randn(1,1,H,W).astype(np.float32)
 
-sess = ort.InferenceSession('test_bcblock.onnx')
+sess = ort.InferenceSession('../models/porting/test_bcblock.onnx')
 onnx_out = sess.run(None, {'input': feat})[0]
 print(f'ONNX: range=[{onnx_out.min():.3f},{onnx_out.max():.3f}]')
 
 rknn_lite = RKNNLite(verbose=False)
-rknn_lite.load_rknn('test_bcblock.rknn')
+rknn_lite.load_rknn('../models/porting/test_bcblock.rknn')
 rknn_lite.init_runtime(core_mask=RKNNLite.NPU_CORE_AUTO)
 
 npu_out = rknn_lite.inference(inputs=[feat], data_format='nchw')[0]

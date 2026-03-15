@@ -1,10 +1,10 @@
 """시뮬레이터 vs NPU 직접 비교 - init_runtime 방식 차이 확인"""
 import numpy as np, wave, sys
-sys.path.insert(0, '/home/rk3588/travail/rk3588/Rockchip_VT')
+sys.path.insert(0, '..')
 from inference_rknn import LogMel
 
-rknn_path = '/home/rk3588/travail/rk3588/Rockchip_VT/BCResNet-t2-rknn-compatible.rknn'
-audio_path = '/home/rk3588/travail/rk3588/Rockchip_VT/wallpad_HiWonder_251113/lkk/lkk_1_2.wav'
+rknn_path = '../models/porting/BCResNet-t2-rknn-compatible.rknn'
+audio_path = '../wallpad_HiWonder_251113/lkk/lkk_1_2.wav'
 
 try:
     from rknnlite.api import RKNNLite as RKNN_LITE

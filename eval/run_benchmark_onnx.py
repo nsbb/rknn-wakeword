@@ -22,11 +22,11 @@ from tqdm.auto import tqdm
 import onnxruntime as ort
 
 ORT_VERSION = ort.__version__
-ONNX_PATH = "/home/rk3588/travail/rk3588/Rockchip_VT/BCResNet-t2-Focal-ep110.onnx"
-TEST_CSV   = "/home/rk3588/travail/rk3588/Rockchip_VT/test.csv"
-VAD_DIR    = "/home/rk3588/travail/rk3588/Rockchip_VT/vad_cropped"
-BASE_DIR   = "/home/rk3588/travail/rk3588/Rockchip_VT"
-OUT_MD     = "/home/rk3588/travail/rk3588/Rockchip_VT/benchmark_results.md"
+ONNX_PATH = "../models/BCResNet-t2-Focal-ep110.onnx"
+TEST_CSV   = "../test.csv"
+VAD_DIR    = "../vad_cropped"
+BASE_DIR   = ".."
+OUT_MD     = "../benchmark_results.md"
 
 # ONNX 세션 생성
 sess_options = ort.SessionOptions()

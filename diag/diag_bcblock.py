@@ -37,10 +37,10 @@ model = helper.make_model(
     opset_imports=[helper.make_opsetid("", 13)]
 )
 model = shape_inference.infer_shapes(model)
-onnx.save(model, 'test_bcblock.onnx')
+onnx.save(model, '../models/porting/test_bcblock.onnx')
 
 feat = np.random.randn(1,1,H,W).astype(np.float32)
-sess = ort.InferenceSession('test_bcblock.onnx')
+sess = ort.InferenceSession('../models/porting/test_bcblock.onnx')
 out = sess.run(None, {'input': feat})[0]
 print(f'ONNX bcblock: shape={out.shape}, range=[{out.min():.3f},{out.max():.3f}]')
 print('Saved: test_bcblock.onnx')

@@ -3,7 +3,7 @@ import onnx
 import numpy as np
 from onnx import shape_inference
 
-model_path = '/home/rk3588/travail/rk3588/Rockchip_VT/BCResNet-t2-Focal-ep110.onnx'
+model_path = '../models/BCResNet-t2-Focal-ep110.onnx'
 model = onnx.load(model_path)
 
 # shape inference 실행

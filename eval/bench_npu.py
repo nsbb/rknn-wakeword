@@ -18,7 +18,7 @@ cores = [
 print(f'Input shape: {feat.shape}')
 for name, mask in cores:
     rknn = RKNNLite(verbose=False)
-    rknn.load_rknn('BCResNet-t2-npu-fixed.rknn')
+    rknn.load_rknn('../models/BCResNet-t2-npu-fixed.rknn')
     rknn.init_runtime(core_mask=mask)
     # warmup
     for _ in range(10):

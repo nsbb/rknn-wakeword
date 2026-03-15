@@ -1,10 +1,10 @@
 """Step 7: build 직후 NPU에서 직접 추론 (load_onnx → build → init_runtime(target='rk3588') → inference)"""
 import numpy as np, wave, sys
-sys.path.insert(0, '/home/rk3588/travail/rk3588/Rockchip_VT')
+sys.path.insert(0, '..')
 from inference_rknn import LogMel
 
-onnx_path = '/home/rk3588/travail/rk3588/Rockchip_VT/BCResNet-t2-rknn-compatible.onnx'
-audio_path = '/home/rk3588/travail/rk3588/Rockchip_VT/wallpad_HiWonder_251113/lkk/lkk_1_2.wav'
+onnx_path = '../models/porting/BCResNet-t2-rknn-compatible.onnx'
+audio_path = '../wallpad_HiWonder_251113/lkk/lkk_1_2.wav'
 
 try:
     from rknnlite.api import RKNNLite as RKNN

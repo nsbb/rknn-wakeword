@@ -18,7 +18,7 @@ feat_flat  = feat_nchw.reshape(1, 40, 151)                  # (1,40,151) - 3D
 print(f'NCHW: {feat_nchw.shape}, NHWC: {feat_nhwc.shape}')
 
 rknn_lite = RKNNLite(verbose=False)
-rknn_lite.load_rknn('BCResNet-t2-npu-fixed.rknn')
+rknn_lite.load_rknn('../models/BCResNet-t2-npu-fixed.rknn')
 rknn_lite.init_runtime(core_mask=RKNNLite.NPU_CORE_AUTO)
 
 for fmt, data in [

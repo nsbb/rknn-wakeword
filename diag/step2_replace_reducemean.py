@@ -6,8 +6,8 @@ import onnx
 import onnx_graphsurgeon as gs
 import numpy as np
 
-model_path = '/home/rk3588/travail/rk3588/Rockchip_VT/BCResNet-t2-Focal-ep110.onnx'
-output_path = '/home/rk3588/travail/rk3588/Rockchip_VT/BCResNet-t2-rknn-compatible.onnx'
+model_path = '../models/BCResNet-t2-Focal-ep110.onnx'
+output_path = '../models/porting/BCResNet-t2-rknn-compatible.onnx'
 
 print("Loading model...")
 model = onnx.load(model_path)

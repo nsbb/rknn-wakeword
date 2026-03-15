@@ -15,13 +15,13 @@ with wave.open('wallpad_HiWonder_251113/lkk/lkk_1_2.wav', 'rb') as wf:
     audio = np.frombuffer(wf.readframes(wf.getnframes()), dtype=np.int16).astype(np.float32) / 32768.0
 feat = LogMel()(audio)[np.newaxis, np.newaxis, ...]
 
-sess = ort.InferenceSession('BCResNet-t2-Focal-ep110.onnx')
+sess = ort.InferenceSession('../models/BCResNet-t2-Focal-ep110.onnx')
 onnx_out = sess.run(None, {sess.get_inputs()[0].name: feat})[0]
 print('ONNX probs:', softmax(onnx_out.squeeze()))
 
 # convert.py로 만든 모델
 rknn = RKNN(verbose=False)
-rknn.load_rknn('BCResNet-t2-Focal-ep110_conv.rknn')
+rknn.load_rknn('../models/porting/BCResNet-t2-Focal-ep110_conv.rknn')
 ret = rknn.init_runtime(target='rk3588', perf_debug=True)
 print('init_runtime ret:', ret)
 raw = rknn.inference(inputs=[feat], data_format='nchw')[0]

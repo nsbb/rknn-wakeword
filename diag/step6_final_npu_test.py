@@ -5,10 +5,10 @@ import wave, sys
 # 1. ONNX 기준 결과
 import onnxruntime as ort
 
-orig_onnx_path = '/home/rk3588/travail/rk3588/Rockchip_VT/BCResNet-t2-Focal-ep110.onnx'
-mod_onnx_path  = '/home/rk3588/travail/rk3588/Rockchip_VT/BCResNet-t2-rknn-compatible.onnx'
-rknn_path      = '/home/rk3588/travail/rk3588/Rockchip_VT/BCResNet-t2-rknn-compatible.rknn'
-audio_path     = '/home/rk3588/travail/rk3588/Rockchip_VT/wallpad_HiWonder_251113/lkk/lkk_1_2.wav'
+orig_onnx_path = '../models/BCResNet-t2-Focal-ep110.onnx'
+mod_onnx_path  = '../models/porting/BCResNet-t2-rknn-compatible.onnx'
+rknn_path      = '../models/porting/BCResNet-t2-rknn-compatible.rknn'
+audio_path     = '../wallpad_HiWonder_251113/lkk/lkk_1_2.wav'
 
 class LogMel:
     def __init__(self, sample_rate=16000, hop_length=160, win_length=480, n_fft=512, n_mels=40):

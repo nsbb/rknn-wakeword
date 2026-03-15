@@ -15,14 +15,14 @@ with wave.open('wallpad_HiWonder_251113/lkk/lkk_1_2.wav', 'rb') as wf:
 feat = LogMel()(audio)[np.newaxis, np.newaxis, ...]
 
 # ONNX reference
-sess = ort.InferenceSession('BCResNet-t2-npu-fixed.onnx')
+sess = ort.InferenceSession('../models/BCResNet-t2-npu-fixed.onnx')
 onnx_out = sess.run(None, {sess.get_inputs()[0].name: feat})[0]
 onnx_probs = softmax(onnx_out.squeeze())
 print(f'ONNX  probs: {onnx_probs}  pred={np.argmax(onnx_probs)}')
 
 # NPU 추론
 rknn_lite = RKNNLite(verbose=False)
-ret = rknn_lite.load_rknn('BCResNet-t2-npu-fixed.rknn')
+ret = rknn_lite.load_rknn('../models/BCResNet-t2-npu-fixed.rknn')
 print(f'load_rknn: {ret}')
 ret = rknn_lite.init_runtime(core_mask=RKNNLite.NPU_CORE_AUTO)
 print(f'init_runtime: {ret}')

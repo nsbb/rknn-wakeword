@@ -9,7 +9,7 @@ import numpy as np
 import onnx
 from onnx import numpy_helper, helper, TensorProto, shape_inference
 
-model = onnx.load('BCResNet-t2-Focal-ep110.onnx')
+model = onnx.load('models/BCResNet-t2-Focal-ep110.onnx')
 model = shape_inference.infer_shapes(model)
 graph = model.graph
 
@@ -241,15 +241,15 @@ feat = LogMel()(audio)[np.newaxis, np.newaxis, ...]
 def softmax(x):
     e = np.exp(x - x.max()); return e / e.sum()
 
-sess_orig = ort.InferenceSession('BCResNet-t2-Focal-ep110.onnx')
+sess_orig = ort.InferenceSession('models/BCResNet-t2-Focal-ep110.onnx')
 orig_out = sess_orig.run(None, {sess_orig.get_inputs()[0].name: feat})[0]
 orig_probs = softmax(orig_out.squeeze())
 print(f'\nOriginal ONNX probs: {orig_probs}')
 
-onnx.save(model, 'BCResNet-t2-npu-fixed.onnx')
-print('Saved: BCResNet-t2-npu-fixed.onnx')
+onnx.save(model, 'models/BCResNet-t2-npu-fixed.onnx')
+print('Saved: models/BCResNet-t2-npu-fixed.onnx')
 
-sess_new = ort.InferenceSession('BCResNet-t2-npu-fixed.onnx')
+sess_new = ort.InferenceSession('models/BCResNet-t2-npu-fixed.onnx')
 new_out = sess_new.run(None, {sess_new.get_inputs()[0].name: feat})[0]
 new_probs = softmax(new_out.squeeze())
 print(f'Fixed  ONNX probs: {new_probs}')
