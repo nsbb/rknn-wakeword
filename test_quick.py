@@ -47,11 +47,14 @@ if __name__ == '__main__':
     rknn.load_rknn(MODEL)
     rknn.init_runtime(core_mask=RKNNLite.NPU_CORE_0)
 
+    # NCHW(1,1,40,151) → NHWC(1,40,151,1) — RKNN 모델이 NHWC 기대
+    feat_nhwc = feat.transpose(0, 2, 3, 1)
+
     # warmup
-    rknn.inference(inputs=[feat], data_format='nchw')
+    rknn.inference(inputs=[feat_nhwc])
 
     t0 = time.perf_counter()
-    raw = rknn.inference(inputs=[feat], data_format='nchw')[0]
+    raw = rknn.inference(inputs=[feat_nhwc])[0]
     elapsed = (time.perf_counter() - t0) * 1000
 
     probs = softmax(raw.squeeze())

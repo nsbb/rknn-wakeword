@@ -215,7 +215,9 @@ class RKNNInferenceEngine:
         return True
 
     def infer(self, input_tensor: np.ndarray) -> np.ndarray:
-        outputs = self.rknn.inference(inputs=[input_tensor], data_format='nchw')
+        # RKNN 모델이 NHWC 기대 — NCHW(1,1,40,151) → NHWC(1,40,151,1)로 변환
+        input_nhwc = input_tensor.transpose(0, 2, 3, 1)
+        outputs = self.rknn.inference(inputs=[input_nhwc])
         logits = outputs[0]
         exp_logits = np.exp(logits - np.max(logits))
         return exp_logits / exp_logits.sum(axis=-1, keepdims=True)
