@@ -104,6 +104,18 @@ conda run -n RKNN-Toolkit2 python convert/convert_fixed_only.py
 conda run -n RKNN-Toolkit2 python test/test_npu_fixed.py
 ```
 
+## Claude 행동 규칙
+
+### 사실 확인 없이 답변 금지
+
+파일명, 모델 이름, 설정값, 수치, 경로 등 구체적 사실에 대해서는 반드시 파일을 읽거나 검색해서 확인한 후 답변할 것. 추측으로 답변 금지. 존재하지 않는 파일명을 지어내지 말 것.
+
+### 커밋에 Co-Authored-By 넣지 말 것
+
+git commit 메시지에 `Co-Authored-By: Claude` 줄을 절대 넣지 말 것.
+
+---
+
 **필독**: 새 세션에서 이 프로젝트를 이어받을 때 반드시 먼저 읽을 것:
 - `../docs/RK3588_NPU_AI_GUIDE.md` — RKNN 범용 버그 목록 및 디버깅 방법 (상위 폴더 공용)
 - `docs/RKNN_PORTING_GUIDE.md` — 실패한 접근 방식, 올바른 디버깅 순서 (이 프로젝트 상세)
