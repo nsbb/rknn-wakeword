@@ -8,12 +8,15 @@ infer_results_onnx/
 # RKNN 변환 중간 확인용 파일 (check0~3)
 models/porting/check*.onnx
 
-# Generated plots / results
+# Generated plots / results (단, infer_results_* 폴더 내 결과물은 허용)
 *.png
 *.jpg
 *.jpeg
 *.csv
 *.json
+!infer_results_*/*.png
+!infer_results_*/*.csv
+!infer_results_*/*.txt
 
 # Cache
 npu_probs_cache.npz
